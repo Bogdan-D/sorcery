@@ -2,11 +2,13 @@ module Sorcery
   module Adapters
     class ActiveRecordAdapter < BaseAdapter
       def update_attributes(attrs)
-        attrs.each do |name, value|
-          @model.send(:"#{name}=", value)
-        end
-        primary_key = @model.class.primary_key
-        @model.class.where(:"#{primary_key}" => @model.send(:"#{primary_key}")).update_all(attrs)
+        @model.update_attributes(attrs)
+        # Why do we need this?
+        # attrs.each do |name, value|
+        #  @model.send(:"#{name}=", value)
+        # end
+        # primary_key = @model.class.primary_key
+        # @model.class.where(:"#{primary_key}" => @model.send(:"#{primary_key}")).update_all(attrs)
       end
 
       def save(options = {})
